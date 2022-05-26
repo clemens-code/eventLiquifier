@@ -1,6 +1,7 @@
 package io.github.clemenscode.eventliquefier.rabbitmq
 
 import com.rabbitmq.client.DeliverCallback
+import io.github.clemenscode.eventliquefier.model.EventToLiquefy
 import io.github.clemenscode.eventliquefier.model.PendingEventToLiquefy
 import io.github.clemenscode.eventliquefier.utils.getLogger
 import kotlinx.coroutines.*
