@@ -15,7 +15,7 @@ class KafkaProducer(
             kafkaTemplate.send(eventToLiquefy.topic, eventToLiquefy.payload)
             true
         } catch (e: Throwable) {
-            logger.error("An error occurred while sending the event: {} wit the target topic: {} busIdentifier: {}", eventToLiquefy.payload, eventToLiquefy.topic, eventToLiquefy.busIdentifier)
+            logger.warn("An error occurred while sending the event: {} wit the target topic: {} busIdentifier: {}", eventToLiquefy.payload, eventToLiquefy.topic, eventToLiquefy.busIdentifier)
             false
         }
     }
