@@ -1,10 +1,10 @@
 package io.github.clemenscode.eventliquefier.rabbitmq
 
 import com.rabbitmq.client.DeliverCallback
-import io.github.clemenscode.eventliquefier.model.EventToLiquefy
 import io.github.clemenscode.eventliquefier.model.PendingEventToLiquefy
 import io.github.clemenscode.eventliquefier.utils.getLogger
-import kotlinx.coroutines.*
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeoutOrNull
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory
 import java.time.Duration
 import javax.annotation.PostConstruct
@@ -14,9 +14,7 @@ private const val VIRTUAL_HOST = "/eventLiquefier"
 internal const val QUEUE_NAME = "eventsPending"
 
 class RabbitMqConsumer(
-        private val connectionFactory: CachingConnectionFactory,
-        private val dispatcher: CoroutineDispatcher,
-        private val channelSize: Long
+        private val connectionFactory: CachingConnectionFactory
 ) {
     private val logger = getLogger(RabbitMqConsumer::class.java)
 
@@ -41,7 +39,7 @@ class RabbitMqConsumer(
             }
         }
         runBlocking {
-            channelProvider = ChannelProvider(connectionFactory, dispatcher, callback)
+            channelProvider = ChannelProvider(connectionFactory, callback)
         }
     }
 

@@ -38,6 +38,7 @@ internal class JobManager(
         }
     }
 
+    @Suppress("TooGenericExceptionCaught")
     fun startJobCheck() {
         logger.info("Starting {} Jobs", jobName)
         scope.launch {
@@ -78,6 +79,7 @@ internal class JobManager(
         }
     }
 
+    @Suppress("TooGenericExceptionCaught")
     private fun CoroutineScope.launchTask() =
             launch {
                 while (isActive) {

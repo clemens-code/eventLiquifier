@@ -10,12 +10,14 @@ class KafkaProducer(
 
     private val logger = getLogger(KafkaProducer::class.java)
 
+    @Suppress("TooGenericExceptionCaught", "SwallowedException")
     fun trySendEvent(eventToLiquefy: EventToLiquefy): Boolean {
         return try {
             kafkaTemplate.send(eventToLiquefy.topic, eventToLiquefy.payload)
             true
         } catch (e: Throwable) {
-            logger.warn("An error occurred while sending the event: {} wit the target topic: {} busIdentifier: {}", eventToLiquefy.payload, eventToLiquefy.topic, eventToLiquefy.busIdentifier)
+            logger.warn("An error occurred while sending the event: {} wit the target topic: {} busIdentifier: {}",
+                    eventToLiquefy.payload, eventToLiquefy.topic, eventToLiquefy.busIdentifier)
             false
         }
     }
