@@ -7,6 +7,7 @@ import io.github.clemenscode.eventliquefier.utils.getLogger
 import kotlinx.coroutines.runBlocking
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory
 import java.io.IOException
+import org.springframework.beans.factory.annotation.Value
 
 private const val PREFETCH_COUNT = 5
 
@@ -14,6 +15,9 @@ class ChannelProvider(
         private val connectionFactory: CachingConnectionFactory,
         private val deliveryCallback: DeliverCallback
 ) {
+
+    @Value("\${rabbitmq.queue-name")
+    private lateinit var queueName: String
 
     private lateinit var channel: Channel
 
@@ -33,7 +37,7 @@ class ChannelProvider(
                 }
             }
             basicQos(PREFETCH_COUNT)
-            basicConsume(QUEUE_NAME, deliveryCallback, cancelCallback)
+            basicConsume(queueName, deliveryCallback, cancelCallback)
         }
     }
 

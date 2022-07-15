@@ -9,13 +9,15 @@ import org.springframework.amqp.rabbit.connection.CachingConnectionFactory
 import java.time.Duration
 import javax.annotation.PostConstruct
 import javax.annotation.PreDestroy
-
-private const val VIRTUAL_HOST = "/eventLiquefier"
-internal const val QUEUE_NAME = "eventsPending"
+import org.springframework.beans.factory.annotation.Value
 
 class RabbitMqConsumer(
         private val connectionFactory: CachingConnectionFactory
 ) {
+
+    @Value("\${rabbitmq.v-host")
+    private lateinit var virtualHost: String
+
     private val logger = getLogger(RabbitMqConsumer::class.java)
 
     private lateinit var channelProvider: ChannelProvider
@@ -23,7 +25,7 @@ class RabbitMqConsumer(
     private val eventChannel = EventChannel().getEventChannel()
 
     init {
-        connectionFactory.virtualHost = VIRTUAL_HOST
+        connectionFactory.virtualHost = virtualHost
     }
 
     @PostConstruct

@@ -1,0 +1,22 @@
+replicaCount: 1
+
+image:
+  repository: clemenscode/eventliquifier
+  pullPolicy: Always
+  version: latest
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+
+service:
+  type: NodePort
+  port: 8080
+  livenessCheckPath: /actuator/health/liveness
+  readinessCheckPath: /actuator/health/readiness
+
+ingress:
+  enabled: true
+
+rabbitmq-user: rabbitmq-user
+rabbitmq-credentials: rabbitmq-eventliquifier-access
